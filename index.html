@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mass to Molar Unit Converter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            font-size: 28px;
+        }
+        
+        label {
+            font-size: 22px;
+        }
+        
+        input[type="number"], select {
+            font-size: 20px;
+        }
+        
+        #result {
+            font-size: 22px;
+            font-weight: bold;
+            background-color: lightblue;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function calculate() {
+            var inputNumber = parseFloat(document.getElementById("inputNumber").value);
+            var inputUnit = document.getElementById("inputUnit").value;
+            var molecularWeight = parseFloat(document.getElementById("molecularWeight").value);
+            var outputUnit = document.getElementById("outputUnit").value;
+            var result;
+
+            // Convert input to grams
+            if (inputUnit === "milligram") {
+                inputNumber = inputNumber / 1000; // Convert milligrams to grams
+            } else if (inputUnit === "microgram") {
+                inputNumber = inputNumber / 1000000; // Convert micrograms to grams
+            }
+            
+            // Convert output from molar to millimolar or micromolar
+            if (outputUnit === "millimolar") {
+                result = (inputNumber * 1000) / molecularWeight; // Convert grams to millimolar
+            } else if (outputUnit === "micromolar") {
+                result = (inputNumber * 1000000) / molecularWeight; // Convert grams to micromolar
+            } else {
+                result = inputNumber / molecularWeight; // Calculate the result in molar
+            }
+            
+            var roundedResult = result.toFixed(3); // Round the result to three decimal places
+
+            document.getElementById("result").innerHTML = "Result: " + roundedResult + " " + outputUnit;
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Mass to Molar Unit Converter</h1>
+        <label for="inputNumber">Input Number:</label>
+        <input type="number" id="inputNumber" step="any" style="font-size: 20px;" required><br><br>
+
+        <label for="inputUnit">Input Unit:</label>
+        <select id="inputUnit" style="font-size: 20px;">
+            <option value="grams">Grams</option>
+            <option value="milligram">Milligrams</option>
+            <option value="microgram">Micrograms</option>
+        </select><br><br>
+
+        <label for="molecularWeight">Molecular Weight:</label>
+        <input type="number" id="molecularWeight" step="any" style="font-size: 20px;" required><br><br>
+
+        <label for="outputUnit">Output Unit:</label>
+        <select id="outputUnit" style="font-size: 20px;">
+            <option value="molar">Molar</option>
+            <option value="millimolar">Millimolar</option>
+            <option value="micromolar">Micromolar</option>
+        </select><br><br>
+
+        <button onclick="calculate()" style="font-size: 20px;">Calculate</button><br><br>
+
+        <div id="result"></div>
+    </div>
+</body>
+</html>
